@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+httpx
+beautifulsoup4
+python-dotenv
+openai>=1.0.0

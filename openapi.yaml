@@ -1,0 +1,108 @@
+openapi: 3.0.0
+info:
+  title: GPT Researcher Bookmark Extension API
+  description: |
+    API for classifying bookmarks using AI-powered content analysis.
+    
+    ## Request Examples
+    ```bash
+    # Using curl
+    curl -X POST "http://127.0.0.1:8000/classify" \
+         -H "Content-Type: application/json" \
+         -d '{"url": "https://openai.com/blog/chatgpt"}'
+    ```
+  version: 1.0.0
+
+servers:
+  - url: http://127.0.0.1:8000
+    description: Local development server
+
+paths:
+  /classify:
+    post:
+      summary: Classify a URL using GPT Researcher
+      description: Analyzes a URL and determines its primary category using AI content analysis
+      operationId: classifyUrl
+      tags:
+        - Classification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: The URL to analyze and classify
+                  example: "https://openai.com/blog/chatgpt"
+              required:
+                - url
+            examples:
+              default:
+                summary: Default example
+                value:
+                  url: "https://openai.com/blog/chatgpt"
+      responses:
+        '200':
+          description: Successful classification
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - report
+                  - sources
+                properties:
+                  report:
+                    type: string
+                    description: Analysis report from GPT Researcher
+                  sources:
+                    type: array
+                    items:
+                      type: string
+                    description: List of sources used for verification
+              example:
+                report: "This website discusses ChatGPT, a large language model developed by OpenAI. The content primarily focuses on artificial intelligence and natural language processing."
+                sources: ["https://openai.com/blog/chatgpt"]
+        '400':
+          description: Bad request - Invalid URL or missing parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: "URL is required"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                example:
+                  error: "Internal server error"
+
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error message
+
+tags:
+  - name: Classification
+    description: URL classification operations

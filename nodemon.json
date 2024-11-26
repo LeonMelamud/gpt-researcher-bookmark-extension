@@ -1,0 +1,22 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "venv",
+    "__pycache__",
+    "*.pyc"
+  ],
+  "verbose": true,
+  "execMap": {
+    "py": "python3"
+  },
+  "watch": [
+    "*.py",
+    "config/*.py"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "py,json"
+}
